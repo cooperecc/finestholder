@@ -1,0 +1,208 @@
+@font-face {
+  font-family: "Cabin";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/cabin-latin-400-normal.woff2") format("woff2");
+}
+
+:root {
+  --gray: #a9a9a9; /* the email line's gray from the current site */
+  --ink: #0e1114;
+  --paper: #e9eef1;
+  --wash: #608aa8; /* carried over from the current site's theme color */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--serif);
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+:focus-visible { outline: 2px solid var(--paper); outline-offset: 4px; }
+
+/* ---------- Homepage: full-screen loop, two click zones ---------- */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.stage video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(1.5rem, 5vh, 3rem);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zone.left  { left: 0;  justify-content: flex-start; }
+.zone.right { right: 0; justify-content: flex-end; }
+
+/* Soft shade behind the text so it reads over any footage. Fades in with the text. */
+.zone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 12, 14, 0.8), rgba(10, 12, 14, 0) 60%);
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+/* Text block: a title, then two lines of body. Anchored to the outer edge of each half. */
+.label {
+  position: relative;
+  display: block;
+  max-width: max(13rem, min(26rem, calc(50vw - 10rem)));
+  text-align: left;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  transform: translateY(0.4rem);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+.label .title {
+  display: block;
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  font-style: italic;
+  line-height: 1.2;
+  margin-bottom: 0.7em;
+}
+.label .line {
+  display: block;
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+  line-height: 1.5;
+}
+.label .line + .line { margin-top: 0.6em; }
+
+.zone:hover::before,
+.zone:focus-visible::before { opacity: 1; }
+
+.zone:hover .label,
+.zone:focus-visible .label { opacity: 1; transform: none; }
+
+/* Gray email line, centered along the bottom. Sits above the click zones so it stays clickable. */
+.email {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: Cabin, Georgia, serif;
+  font-size: 1rem;
+  white-space: nowrap;
+  color: var(--gray);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+.email a { color: inherit; text-decoration: none; }
+.email a:hover,
+.email a:focus-visible { text-decoration: underline; }
+
+/* Touch screens can't hover, so keep the text and its shade showing. */
+@media (hover: none) {
+  .zone::before { opacity: 1; }
+  .label { opacity: 0.92; transform: none; }
+}
+
+/* ---------- Inner pages ---------- */
+
+.page {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+}
+
+.page .back {
+  display: inline-block;
+  font-style: italic;
+  text-decoration: none;
+  opacity: 0.8;
+  margin-bottom: clamp(2rem, 8vh, 4rem);
+}
+.page .back:hover { opacity: 1; text-decoration: underline; }
+
+.page h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.page p { max-width: 38rem; margin-bottom: 1.25rem; }
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  margin: 2rem 0;
+}
+.frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.note { color: var(--wash); font-style: italic; }
+
+/* The one-sentence page. Written as .page .statement so it beats the general .page p rule. */
+.page .statement {
+  font-size: clamp(1.5rem, 3.6vw, 2.6rem);
+  line-height: 1.35;
+  max-width: 28em;
+  margin: clamp(3rem, 14vh, 8rem) 0 0;
+}
+.page .statement a {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+.page .statement a:hover,
+.page .statement a:focus-visible { color: var(--wash); }
+
+/* Unlisted /epe page: the original site's steel blue with white text. Scoped so it beats the general .page rules. */
+.epe-page { background: var(--wash); color: #fff; }
+.epe-page .page { padding-top: clamp(3rem, 12vh, 7rem); }
+.epe-page .page p {
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  line-height: 1.6;
+  max-width: 34rem;
+  margin-bottom: 2rem;
+}
+.epe-page .page a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+}
+.epe-page .page a:hover { opacity: 0.8; }
+
+/* On phones each half is narrow: smaller text, and room left below it for the email line. */
+@media (max-width: 640px) {
+  .zone { padding: 0 1rem 4.25rem; }
+  .label { max-width: none; }
+  .label .title { font-size: 1rem; }
+  .label .line { font-size: 0.74rem; line-height: 1.45; }
+  .email { bottom: 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone::before, .label { transition: none; }
+}

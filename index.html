@@ -3,94 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>(Better Than Fine)</title>
+  <title>Finest Worksong</title>
   <meta name="description" content="A work-in-progress hybrid documentary about the great American band R.E.M. Directed by Cooper Conley-Currier and Co.">
-  <meta name="author" content="Finest Worksong">
   <meta name="theme-color" content="#608aa8">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Finest Worksong">
   <meta property="og:title" content="Finest Worksong">
   <meta property="og:description" content="A work-in-progress hybrid documentary about the great American band R.E.M. Directed by Cooper Conley-Currier and Co.">
   <meta property="og:url" content="https://finestworksong.com/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Finest Worksong">
-  <meta name="twitter:description" content="A work-in-progress hybrid documentary about the great American band R.E.M. Directed by Cooper Conley-Currier and Co.">
   <link rel="canonical" href="https://finestworksong.com/">
   <link rel="preload" href="/fonts/cabin-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-
-  <style>
-    @font-face {
-      font-family: "Cabin";
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-      src: url("/fonts/cabin-latin-400-normal.woff2") format("woff2");
-    }
-
-    :root {
-      --blue: #608aa8;
-      --gray: #a9a9a9;
-      --white: #fff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { background: var(--blue); }
-
-    body {
-      min-height: 100vh;
-      background: var(--blue);
-      font-family: Cabin, Georgia, serif;
-      font-size: 16px;
-      line-height: 1.8;
-      padding: 56px 44px 36px;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .video {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: rgba(0, 0, 0, 0.12);
-    }
-    .video iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .email {
-      margin-top: clamp(3rem, 25.8vw, 16.5rem);
-      text-align: center;
-      color: var(--gray);
-    }
-    .email a { color: inherit; text-decoration: none; }
-    .email a:hover, .email a:focus-visible { text-decoration: underline; }
-
-    :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
-
-    @media (max-width: 640px) {
-      body { padding: 28px 16px 36px; }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <main>
-    <div class="video">
-      <iframe
-        src="https://player.vimeo.com/video/884433551?h=439c73f7bd&amp;autoplay=0&amp;title=0&amp;portrait=0&amp;byline=0&amp;badge=0&amp;loop=0&amp;muted=0&amp;controls=1"
-        title="(Better Than Fine)"
-        allow="fullscreen; picture-in-picture"
-        allowfullscreen
-        loading="lazy"></iframe>
-    </div>
+  <main class="stage">
+    <!-- The loop is vertical (1080x1920). "cover" crops it to a landscape strip on desktop, keeping both cards in frame. -->
+    <video id="loop" autoplay muted loop playsinline preload="auto" poster="/assets/poster.jpg" aria-hidden="true">
+      <source src="/assets/loop.mp4" type="video/mp4">
+    </video>
+
+    <a class="zone left" href="/contribute/">
+      <span class="label">
+        <span class="title">Oscar-Winning Documentary About R.E.M.</span>
+        <span class="line">Popular-product-as-goal motivation. A Tale of failure through attainment.</span>
+        <span class="line">Collection + Control + Commodification</span>
+      </span>
+    </a>
+    <a class="zone right" href="/film/">
+      <span class="label">
+        <span class="title">(Better Than Fine)</span>
+        <span class="line">What happens when love is fed towards something abstract? Success through process.</span>
+        <span class="line">Communication + Connection + Creation + Unconcern</span>
+      </span>
+    </a>
 
     <p class="email"><a href="mailto:cooper@finestworksong.com">cooper@finestworksong.com</a></p>
   </main>
+
+  <script>
+    // Respect people who ask their device to limit motion: show the poster frame instead of a loop.
+    var v = document.getElementById('loop');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay');
+      v.pause();
+    }
+  </script>
 </body>
 </html>
